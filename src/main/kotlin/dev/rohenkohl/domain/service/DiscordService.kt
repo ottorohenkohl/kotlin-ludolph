@@ -17,23 +17,28 @@ class DiscordService(val discordClient: DiscordClient) {
         val embedData = EmbedCreateSpec.builder()
             .color(Color.ORANGE)
             .title("Hallo zusammen 👋")
-            .description("ich bin es, euer Lieblingsdozent Ludolph. Da ich jetzt bereit bin, setz' mich direkt an mein Portfolio. Schau dir meine Trades an und mach es mir gerne nach 📈!")
+            .description("ich bin es, euer Lieblingsdozent Ludolph. Da ich jetzt bereit bin, setz' mich direkt an mein Portfolio. Schau dir meine Trades an und mache es mir nach 📈!")
             .addField("Funktionen", "Ich melde mich, wenn ich neue Trades durchführe oder sich mein Platz in der Rangliste ändert.", true)
             .addField("Ideen", "Meldet euch gerne für mögliche Erweiterungsvorschläge!", true)
             .build()
             .asRequest()
 
-
         discordClient.sendMessage(embedData, channel)
     }
 
     fun announceChange(bought: Set<Asset>, sold: Set<Asset>) {
+        var boughtList = bought.joinToString(separator = "\n") { it.name }
+        var soldList = sold.joinToString(separator = "\n") { it.name }
+
+        if (boughtList.isBlank()) boughtList = "Keine Änderungen"
+        if (soldList.isBlank()) soldList = "Keine Änderungen"
+
         val embedData = EmbedCreateSpec.builder()
             .color(Color.ORANGE)
             .title("Neue Änderungen 🆕")
             .description("Ich habe gerade etwas an meinem Portfolio verändert.")
-            .addField("Gekaufte Aktien 🛒", bought.joinToString(separator = "\n") { it.name }, false)
-            .addField("Verkaufte Aktien 💸", sold.joinToString(separator = "\n") { it.name }, false)
+            .addField("Gekaufte Aktien 🛒", boughtList, false)
+            .addField("Verkaufte Aktien 💸", soldList, false)
             .build()
             .asRequest()
 
