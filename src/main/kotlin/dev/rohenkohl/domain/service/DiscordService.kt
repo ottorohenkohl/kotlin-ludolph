@@ -19,7 +19,7 @@ class DiscordService(val discordClient: DiscordClient) {
             .title("Hallo zusammen 👋")
             .description("ich bin es, euer Lieblingsdozent Ludolph. Da ich jetzt bereit bin, setz' mich direkt an mein Portfolio. Schau dir meine Trades an und mach es mir gerne nach 📈!")
             .addField("Funktionen", "Ich melde mich, wenn ich neue Trades durchführe oder sich mein Platz in der Rangliste ändert.", true)
-            .addField("Ideen", "Für mögliche Erweiterungsvorschläge meldet euch gerne!", true)
+            .addField("Ideen", "Meldet euch gerne für mögliche Erweiterungsvorschläge!", true)
             .build()
             .asRequest()
 
