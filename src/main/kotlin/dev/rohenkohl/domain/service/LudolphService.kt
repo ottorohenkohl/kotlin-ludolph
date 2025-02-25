@@ -1,6 +1,5 @@
 package dev.rohenkohl.domain.service
 
-import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import org.eclipse.microprofile.config.ConfigProvider
 
@@ -16,25 +15,17 @@ class LudolphService(val discordService: DiscordService, val investspielService:
     private var storedPosition = newPosition
 
     fun updateChange() {
-        val assets = newAssets
-
-        Log.info("Updating portfolio; before ${storedAssets.map { it.name }}, after ${assets.map { it.name }}")
-
-        val bought = storedAssets.union(assets).minus(storedAssets)
-        val sold = storedAssets.minus(assets)
+        val bought = newAssets.minus(storedAssets)
+        val sold = storedAssets.minus(newAssets)
 
         if (bought.isNotEmpty() || sold.isNotEmpty()) discordService.announceChange(bought, sold)
 
-        this.storedAssets = assets
+        this.storedAssets = newAssets
     }
 
     fun updatePosition() {
-        val position = newPosition
+        if (newPosition != storedPosition) discordService.announcePosition(storedPosition, newPosition)
 
-        Log.info("Updating position; before $storedPosition, after $position")
-
-        if (position != storedPosition) discordService.announcePosition(storedPosition, position)
-
-        this.storedPosition = position
+        this.storedPosition = newPosition
     }
 }

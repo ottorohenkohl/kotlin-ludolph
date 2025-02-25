@@ -14,8 +14,6 @@ class DiscordService(val discordClient: DiscordClient) {
     private val channel = ConfigProvider.getConfig().getValue("ludolph.id.channel", Long::class.java)
 
     fun sayHello() {
-        Log.info("Saying hello to discord")
-
         val embedData = EmbedCreateSpec.builder()
             .color(Color.ORANGE)
             .title("Hallo zusammen 👋")
@@ -30,14 +28,12 @@ class DiscordService(val discordClient: DiscordClient) {
     }
 
     fun announceChange(bought: Set<Asset>, sold: Set<Asset>) {
-        Log.info("Announcing new change to discord; bought ${bought.map { it.name }}, sold ${sold.map { it.name }}")
-
         val embedData = EmbedCreateSpec.builder()
             .color(Color.ORANGE)
-            .title("Neue Änderungen")
+            .title("Neue Änderungen 🆕")
             .description("Ich habe gerade etwas an meinem Portfolio verändert.")
-            .addField("Gekaufte Aktien 🛒", bought.joinToString(separator = ", ") { it.name }, true)
-            .addField("Verkaufte Aktien 💸", sold.joinToString(separator = ", ") { it.name }, true)
+            .addField("Gekaufte Aktien 🛒", bought.joinToString(separator = "\n") { it.name }, false)
+            .addField("Verkaufte Aktien 💸", sold.joinToString(separator = "\n") { it.name }, false)
             .build()
             .asRequest()
 
@@ -45,8 +41,6 @@ class DiscordService(val discordClient: DiscordClient) {
     }
 
     fun announcePosition(before: Int, position: Int) {
-        Log.info("Announcing position change to discord; before $before, position $position")
-
         val embedData = EmbedCreateSpec.builder()
             .title("Platzänderung 🚀")
             .addField("Vorher", before.toString(), true)
