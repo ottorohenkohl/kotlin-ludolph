@@ -1,75 +1,46 @@
-# ludolph
+# Ludolph
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+[![pipeline status](http://sources.rohenkohl.dev/entwicklung/kotlin/ludolph/badges/main/pipeline.svg)](http://sources.rohenkohl.dev/entwicklung/kotlin/ludolph/-/commits/main) [![coverage report](http://sources.rohenkohl.dev/entwicklung/kotlin/ludolph/badges/main/coverage.svg)](http://sources.rohenkohl.dev/entwicklung/kotlin/ludolph/-/commits/main) [![Latest Release](http://sources.rohenkohl.dev/entwicklung/kotlin/ludolph/-/badges/release.svg)](http://sources.rohenkohl.dev/entwicklung/kotlin/ludolph/-/releases)
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## 1. Projektbeschreibung
 
-## Running the application in dev mode
+Ludolph ist ein Discord-Bot, der automatisch Informationen über Veränderungen in einem laufenden Investmentspiel ausliest und diese in einem Discord-Channel bereitstellt. Dazu gehören:
 
-You can run your application in dev mode that enables live coding using:
+- Erkennung neuer Käufe und Verkäufe von Aktien
+- Überwachung der Platzierungen im Ranking
+- Automatische Benachrichtigung der Nutzer
 
-```shell script
+Das Projekt basiert auf **Kotlin**, **Quarkus** und **Gradle** und verwendet **Discord4J** für die Kommunikation mit Discord.
+
+---
+
+## 2. Installation/Einrichtung
+
+### Voraussetzungen
+
+- Eine laufende **Quarkus**-Umgebung
+- Ein gültiges Discord-Bot-Token
+- Zugangsdaten für die Spiel-API
+
+### Konfiguration
+
+Ludolph verwendet **Eclipse MicroProfile Config** zur Verwaltung der Konfigurationswerte. Diese können entweder als **Umgebungsvariablen** oder innerhalb der **`application.properties`** definiert werden.
+
+| Umgebungsvariable         | [application.properties](src/main/resources/application.properties) | Beschreibung                                   |
+|---------------------------|---------------------------------------------------------------------|------------------------------------------------|
+| `LUDOLPH_ID_CHANNEL`      | `ludolph.id.channel`                                                | ID des Discord-Channels für Benachrichtigungen |
+| `LUDOLPH_ID_GAME`         | `ludolph.id.game`                                                   | ID des Spiels                                  |
+| `LUDOLPH_ID_PORTFOLIO`    | `ludolph.id.portfolio`                                              | ID des zu überwachenden Portfolios             |
+| `LUDOLPH_ID_USER`         | `ludolph.id.user`                                                   | Benutzer-ID für den API-Zugriff                |
+| `LUDOLPH_USER_EMAIL`      | `ludolph.user.email`                                                | Login-E-Mail für das Spiel                     |
+| `LUDOLPH_USER_PASSWORD`   | `ludolph.user.password`                                             | Passwort für den API-Zugang                    |
+| `QUARKUS_DISCORD4J_TOKEN` | `quarkus.discord4j.token`                                           | Token für den Discord-Bot                      |
+
+---
+
+## 3. Nutzung/Beispiele
+
+```sh
 ./gradlew quarkusDev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
-
-## Packaging and running the application
-
-The application can be packaged using:
-
-```shell script
-./gradlew build
-```
-
-It produces the `quarkus-run.jar` file in the `build/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `build/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar build/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./gradlew build -Dquarkus.package.jar.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar build/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./gradlew build -Dquarkus.native.enabled=true
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./gradlew build -Dquarkus.native.enabled=true -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./build/ludolph-1.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/gradle-tooling>.
-
-## Related Guides
-
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and
-  Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on
-  it.
-- REST Client ([guide](https://quarkus.io/guides/rest-client)): Call REST services
-
-## Provided Code
-
-### REST Client
-
-Invoke different services through REST with JSON
-
-[Related guide section...](https://quarkus.io/guides/rest-client)
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
