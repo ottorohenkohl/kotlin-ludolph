@@ -4,7 +4,6 @@ import dev.rohenkohl.domain.client.DiscordClient
 import dev.rohenkohl.domain.client.transfer.portfolio.Asset
 import discord4j.core.spec.EmbedCreateSpec
 import discord4j.rest.util.Color
-import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import org.eclipse.microprofile.config.ConfigProvider
 
@@ -12,19 +11,6 @@ import org.eclipse.microprofile.config.ConfigProvider
 class DiscordService(val discordClient: DiscordClient) {
 
     private val channel = ConfigProvider.getConfig().getValue("ludolph.id.channel", Long::class.java)
-
-    fun sayHello() {
-        val embedData = EmbedCreateSpec.builder()
-            .color(Color.ORANGE)
-            .title("Hallo zusammen 👋")
-            .description("ich bin es, euer Lieblingsdozent Ludolph. Da ich jetzt bereit bin, setz' mich direkt an mein Portfolio. Schau dir meine Trades an und mache es mir nach 📈!")
-            .addField("Funktionen", "Ich melde mich, wenn ich neue Trades durchführe oder sich mein Platz in der Rangliste ändert.", true)
-            .addField("Ideen", "Meldet euch gerne für mögliche Erweiterungsvorschläge!", true)
-            .build()
-            .asRequest()
-
-        discordClient.sendMessage(embedData, channel)
-    }
 
     fun announceChange(bought: Set<Asset>, sold: Set<Asset>) {
         var boughtList = bought.joinToString(separator = "\n") { it.name }
